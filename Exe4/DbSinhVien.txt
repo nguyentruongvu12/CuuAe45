@@ -1,0 +1,65 @@
+package com.example.mycount;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+
+public class DbSinhVien extends SQLiteOpenHelper {
+    public DbSinhVien(@Nullable Context context) {
+        super(context, "dbSinhVien",null,1);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        String sql = "Create table tbSinhVien (maSV Text, tenSV Text, tuoi Text)";
+        sqLiteDatabase.execSQL(sql);
+    }
+
+    public void ThemDL(SinhVien sv){
+        String sql = "insert into tbSinhVien values (?,?,?)";
+        SQLiteDatabase database = getWritableDatabase();
+        database.execSQL(sql,new String[]{sv.getMaSV(), sv.getTenSV(), sv.getTuoi()});
+    }
+
+    public ArrayList<SinhVien> DocDL(){
+        ArrayList<SinhVien> data = new ArrayList<>();
+        String sql = "select * from tbSinhVien";
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = database.rawQuery(sql,null);
+        if (cursor.moveToFirst())
+        {
+            do {
+                SinhVien sinhVien = new SinhVien();
+                sinhVien.setMaSV(cursor.getString(0));
+                sinhVien.setTenSV(cursor.getString(1));
+                sinhVien.setTuoi(cursor.getString(2));
+                data.add(sinhVien);
+            }
+            while (cursor.moveToNext());
+        }
+        return data;
+    }
+
+    public void XoaDL(SinhVien sv){
+        String sql = "Delete from tbSinhVien where maSV=?";
+        SQLiteDatabase database = getWritableDatabase();
+        database.execSQL(sql, new String[]{sv.getMaSV()});
+    }
+
+    public void SuaDl(SinhVien sv){
+        String sql = "Update tbSinhVien set tenSV=?,tuoi=? where maSV=?";
+        SQLiteDatabase database = getWritableDatabase();
+        database.execSQL(sql, new String[]{sv.getTenSV(), sv.getTuoi(), sv.getMaSV()});
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+    }
+
+}

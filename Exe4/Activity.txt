@@ -1,0 +1,87 @@
+package com.example.mycount;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    DbSinhVien dbSinhVien;
+    EditText edtMa, edtTen, edtTuoi;
+    ListView lvDanhSach;
+    ArrayList<SinhVien> data = new ArrayList<>();
+    ArrayAdapter adapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout_dulieu);
+        setControl();
+        setEvent();
+    }
+
+    private void setEvent() {
+        dbSinhVien = new DbSinhVien(this);
+        dbSinhVien.ThemDL(new SinhVien("SV1","Nguyen Van A","20"));
+        dbSinhVien.ThemDL(new SinhVien("SV2","Nguyen Thi C","22"));
+
+        adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,data);
+        lvDanhSach.setAdapter(adapter);
+    }
+
+    private void setControl() {
+        lvDanhSach = findViewById(R.id.lvData);
+        edtMa = findViewById(R.id.edtMa);
+        edtTen = findViewById(R.id.edtTen);
+        edtTuoi = findViewById(R.id.edtTuoi);
+    }
+
+    public void ChucNang(View view){
+        switch (view.getId())
+        {
+            case R.id.btnThem:
+                Toast.makeText(this,"Them",Toast.LENGTH_SHORT).show();
+                ThemDL();
+                break;
+
+            case R.id.btnXoa:
+                Toast.makeText(this,"Xoa",Toast.LENGTH_SHORT).show();
+                XoaDl();
+                break;
+
+            case R.id.btnSua:
+                Toast.makeText(this,"Sua",Toast.LENGTH_SHORT).show();
+                SuaDL();
+                break;
+
+            case R.id.btnHienThi:
+                Toast.makeText(this,"HienThi",Toast.LENGTH_SHORT).show();
+                DocDL();
+                break;
+        }
+    }
+
+    private void SuaDL(){
+          dbSinhVien.SuaDl(new SinhVien(edtMa.getText().toString(),edtTen.getText().toString(),edtTuoi.getText().toString()));
+    }
+
+    private void XoaDl(){
+        dbSinhVien.XoaDL(new SinhVien(edtMa.getText().toString(),edtTen.getText().toString(),edtTuoi.getText().toString()));
+    }
+
+    private void ThemDL(){
+        dbSinhVien.ThemDL(new SinhVien(edtMa.getText().toString(),edtTen.getText().toString(),edtTuoi.getText().toString()));
+    }
+    private void DocDL(){
+        data.clear();
+        data.addAll(dbSinhVien.DocDL());
+        adapter.notifyDataSetChanged();
+    }
+}

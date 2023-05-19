@@ -1,0 +1,47 @@
+package com.example.mycount;
+
+public class SinhVien {
+    private String maSV, tenSV, tuoi;
+
+    public SinhVien() {
+    }
+
+    public SinhVien(String maSV, String tenSV, String tuoi) {
+        this.maSV = maSV;
+        this.tenSV = tenSV;
+        this.tuoi = tuoi;
+    }
+
+    public String getMaSV() {
+        return maSV;
+    }
+
+    public void setMaSV(String maSV) {
+        this.maSV = maSV;
+    }
+
+    public String getTenSV() {
+        return tenSV;
+    }
+
+    public void setTenSV(String tenSV) {
+        this.tenSV = tenSV;
+    }
+
+    public String getTuoi() {
+        return tuoi;
+    }
+
+    public void setTuoi(String tuoi) {
+        this.tuoi = tuoi;
+    }
+
+    @Override
+    public String toString() {
+        return "SinhVien{" +
+                "maSV='" + maSV + '\'' +
+                ", tenSV='" + tenSV + '\'' +
+                ", tuoi='" + tuoi + '\'' +
+                '}';
+    }
+}
